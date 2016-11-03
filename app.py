@@ -2,6 +2,7 @@ from flask import Flask, Response, request, jsonify
 from bson import Binary, Code
 from bson.json_util import dumps
 from pymongo import MongoClient
+import re
 
 app = Flask(__name__)
 
@@ -25,7 +26,9 @@ def tweets():
     if q is None:
         data = list(db.tweets.find({}))
     else:
-        data = list((db.tweets.find({"text":{"$regex" : '/.*'+q+'.*/i'}})))
+        term_list = q.split(" ")
+        regexp = re.compile(r"|".join(term_list), re.IGNORECASE)
+        data = list((db.tweets.find({"text":regexp})))
     return Response(dumps(data), mimetype='application/json')
 
 
