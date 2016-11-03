@@ -25,7 +25,7 @@ def tweets():
     if q is None:
         data = list(db.tweets.find({}))
     else:
-        data = list((db.tweets.find({"text":{"$text" : '\"'+q+'\"'}})))
+        data = list((db.tweets.find({"text":{"$regex" : '/.*'+q+'.*/i'}})))
     return Response(dumps(data), mimetype='application/json')
 
 
