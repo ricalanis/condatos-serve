@@ -1,5 +1,6 @@
 from flask import Flask, Response, request, jsonify
-import simplejson as json
+from bson import Binary, Code
+from bson.json_util import dumps
 from pymongo import MongoClient
 
 app = Flask(__name__)
@@ -25,7 +26,7 @@ def tweets():
         data = list(db.tweets.find({}))
     else:
         data = list((db.tweets.find({"text":{"$regex" : "/.*"+q+".*/i"}})))
-    return Response(json.dumps(data), mimetype='application/json')
+    return Response(dumps(data), mimetype='application/json')
 
 
 if __name__ == '__main__':
