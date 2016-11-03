@@ -30,4 +30,4 @@ def tweets():
 
 if __name__ == '__main__':
     app.after_request(add_cors_headers)
-    app.run(threaded=True, host='0.0.0.0', port=9000, debug=True)
+    app.run(threaded=True, host='0.0.0.0', port=7001, debug=True)
